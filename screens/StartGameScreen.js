@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import Card from "../components/Card";
 import Colors from "../constants/colors";
+import Input from "../components/Input";
 
 const StartGameScreen = (props) => {
   return (
@@ -10,7 +11,15 @@ const StartGameScreen = (props) => {
       <Text style={styles.title}>Start a New Game!</Text>
       <Card style={styles.inputContainer}>
         <Text style={styles.title}>Select a New Games!</Text>
-        <TextInput />
+        {/** here is where we implement the custom width to the input */}
+        <Input
+          style={styles.input}
+          blurOnSubmit
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="number-pad"
+          maxLength={2}
+        />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button title="Reset" color={Colors.accent} onPress={() => {}} />
@@ -52,6 +61,14 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "40%",
+  },
+  input: {
+    width: "10%",
+    /**
+     *  we use this textAlign property to have the user text
+     * be shown within the middle
+     **/
+    textAlign: "center",
   },
 });
 
