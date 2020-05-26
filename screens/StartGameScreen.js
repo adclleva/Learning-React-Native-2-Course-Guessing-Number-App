@@ -15,6 +15,8 @@ import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
 
 const StartGameScreen = (props) => {
+  const { onStartGame } = props;
+
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
@@ -55,17 +57,24 @@ const StartGameScreen = (props) => {
     Keyboard.dismiss();
   };
 
-  let confirmedOutput;
+  const displayConfirmedOutput = () => {
+    let confirmedOutput;
 
-  if (confirmed) {
-    confirmedOutput = (
-      <Card style={styles.summaryContainer}>
-        <Text>You selected</Text>
-        <NumberContainer>{selectedNumber}</NumberContainer>
-        <Button title="START GAME" />
-      </Card>
-    );
-  }
+    if (confirmed) {
+      confirmedOutput = (
+        <Card style={styles.summaryContainer}>
+          <Text>You selected</Text>
+          <NumberContainer>{selectedNumber}</NumberContainer>
+          <Button
+            title="START GAME"
+            onPress={() => onStartGame(selectedNumber)}
+          />
+        </Card>
+      );
+    }
+
+    return confirmedOutput;
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -105,7 +114,9 @@ const StartGameScreen = (props) => {
             </View>
           </View>
         </Card>
-        {confirmedOutput}
+        {/* have this as a function call is experimenting whether to use a function 
+            to display the confirmed input*/}
+        {displayConfirmedOutput()}
       </View>
     </TouchableWithoutFeedback>
   );
