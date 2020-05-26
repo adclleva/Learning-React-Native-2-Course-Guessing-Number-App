@@ -12,6 +12,7 @@ import {
 import Card from "../components/Card";
 import Colors from "../constants/colors";
 import Input from "../components/Input";
+import NumberContainer from "../components/NumberContainer";
 
 const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
@@ -51,12 +52,19 @@ const StartGameScreen = (props) => {
      * the next render cycle
      *  */
     setSelectedNumber(chosenNumber);
+    Keyboard.dismiss();
   };
 
   let confirmedOutput;
 
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
+    confirmedOutput = (
+      <Card style={styles.summaryContainer}>
+        <Text>You selected</Text>
+        <NumberContainer>{selectedNumber}</NumberContainer>
+        <Button title="START GAME" />
+      </Card>
+    );
   }
 
   return (
@@ -134,6 +142,15 @@ const styles = StyleSheet.create({
      * be shown within the middle
      **/
     textAlign: "center",
+  },
+
+  summaryContainer: {
+    marginVertical: 20,
+    /**
+     * since we want the width to be only surrounding the number
+     * and the default is stretch
+     */
+    alignItems: "center",
   },
 });
 
