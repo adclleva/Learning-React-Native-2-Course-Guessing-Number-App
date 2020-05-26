@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
@@ -24,12 +24,21 @@ const generateRandomBetween = (min, max, exclude) => {
 };
 
 const GameScreen = (props) => {
-  const { userChoice } = props;
+  const { userChoice, onGameOver } = props;
 
   // the initial state will be using what is returned from the generateRandomBetween function
   const [currentGuess, setCurrentGuess] = useState(
     generateRandomBetween(1, 100, userChoice)
   );
+  const [rounds, setRounds] = useState(0);
+
+  // this useEffect checks if the currentGuess and userChoice match
+  useEffect(() => {
+    if (currentGuess === userChoice) {
+      onGameOver(rounds);
+    }
+    // we include the userChoice and onGameOver because they are also used as dependencies
+  }, [currentGuess, userChoice, onGameOver]);
 
   /**
    * these will be the initial boundaries and wont be re-initialized when the component re-renders
@@ -69,6 +78,8 @@ const GameScreen = (props) => {
       currentGuess
     );
 
+    // this is best practice since you don't want to mutate the current value of the state
+    setRounds((currentRounds) => currentRounds + 1);
     setCurrentGuess(nextNumber);
   };
 
