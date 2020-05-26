@@ -42,11 +42,18 @@ const StartGameScreen = (props) => {
     setConfirmed(true);
     setEnteredValue("");
     /**
-     * we can have this setState be after since it will be batched together
-     * and the changes will be shown within the next render cycle
+     * we can have this setState be after since the setState calls will
+     * be batched together and the changes will be shown within
+     * the next render cycle
      *  */
     setSelectedNumber(chosenNumber);
   };
+
+  let confirmedOutput;
+
+  if (confirmed) {
+    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -86,6 +93,7 @@ const StartGameScreen = (props) => {
             </View>
           </View>
         </Card>
+        {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
   );
