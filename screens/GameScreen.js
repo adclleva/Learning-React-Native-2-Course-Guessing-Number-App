@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
+import DefaultStyles from "../constants/default-styles";
+import defaultStyles from "../constants/default-styles";
 
 /**
  * here we create a function outside of the functional component since it's not
@@ -85,7 +87,7 @@ const GameScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      <Text>Opponent's Guess</Text>
+      <Text style={defaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
         <Button title="LOWER" onPress={() => nextGuessHandler("lower")} />

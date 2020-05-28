@@ -1,13 +1,36 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import * as Font from "expo-font"; // expo-font is a utility
+import { AppLoading } from "expo"; // this waits until whatever is inside, executes
+
 import Header from "./components/Header";
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
 import GameOverScreen from "./screens/GameOverScreen";
 
+const fetchFonts = () => {
+  return Font.loadAsync({
+    // this tells where the font's live and how to access them
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
+};
+
 export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [guessRounds, setGuessRounds] = useState(0);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        // startAsync has to take in a function that returns a promise
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+        onError={(err) => console.log(err)}
+      />
+    );
+  }
 
   const configureNewGameHandler = () => {
     setGuessRounds(0);
