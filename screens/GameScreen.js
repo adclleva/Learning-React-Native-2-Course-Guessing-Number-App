@@ -5,6 +5,7 @@ import Card from "../components/Card";
 import DefaultStyles from "../constants/default-styles";
 import defaultStyles from "../constants/default-styles";
 import MainButton from "../components/MainButton";
+import { Ionicons } from "@expo/vector-icons";
 
 /**
  * here we create a function outside of the functional component since it's not
@@ -91,9 +92,11 @@ const GameScreen = (props) => {
       <Text style={defaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <MainButton onPress={() => nextGuessHandler("lower")}>LOWER</MainButton>
+        <MainButton onPress={() => nextGuessHandler("lower")}>
+          <Ionicons name="md-remove" size={24} color="white" />
+        </MainButton>
         <MainButton onPress={() => nextGuessHandler("greater")}>
-          GREATERR
+          <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
     </View>
