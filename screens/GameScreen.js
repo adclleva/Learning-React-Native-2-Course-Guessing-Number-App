@@ -93,7 +93,7 @@ const GameScreen = (props) => {
       <Card style={styles.buttonContainer}>
         <MainButton onPress={() => nextGuessHandler("lower")}>LOWER</MainButton>
         <MainButton onPress={() => nextGuessHandler("greater")}>
-          GREATER
+          GREATERR
         </MainButton>
       </Card>
     </View>
