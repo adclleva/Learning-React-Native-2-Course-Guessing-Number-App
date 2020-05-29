@@ -4,6 +4,7 @@ import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import DefaultStyles from "../constants/default-styles";
 import defaultStyles from "../constants/default-styles";
+import MainButton from "../components/MainButton";
 
 /**
  * here we create a function outside of the functional component since it's not
@@ -90,8 +91,10 @@ const GameScreen = (props) => {
       <Text style={defaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <Button title="LOWER" onPress={() => nextGuessHandler("lower")} />
-        <Button title="GREATER" onPress={() => nextGuessHandler("greater")} />
+        <MainButton onPress={() => nextGuessHandler("lower")}>LOWER</MainButton>
+        <MainButton onPress={() => nextGuessHandler("greater")}>
+          GREATER
+        </MainButton>
       </Card>
     </View>
   );
@@ -108,8 +111,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 20,
-    width: 300,
-    maxWidth: "80%",
+    width: "80%",
+    maxWidth: "90%",
   },
 });
 
