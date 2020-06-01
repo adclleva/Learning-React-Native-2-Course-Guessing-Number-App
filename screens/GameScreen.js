@@ -13,6 +13,7 @@ import DefaultStyles from "../constants/default-styles";
 import defaultStyles from "../constants/default-styles";
 import MainButton from "../components/MainButton";
 import { Ionicons } from "@expo/vector-icons";
+import BodyText from "../components/BodyText";
 
 /**
  * here we create a function outside of the functional component since it's not
@@ -32,6 +33,15 @@ const generateRandomBetween = (min, max, exclude) => {
   } else {
     return randomNum;
   }
+};
+
+const renderListItem = (value, numOfRound) => {
+  return (
+    <View key={value} style={styles.listItem}>
+      <BodyText>#{numOfRound}</BodyText>
+      <BodyText>{value}</BodyText>
+    </View>
+  );
 };
 
 const GameScreen = (props) => {
@@ -117,15 +127,13 @@ const GameScreen = (props) => {
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
-      <ScrollView>
-        {pastGuesses.map((guess, index) => {
-          return (
-            <View key={guess}>
-              <Text>{guess}</Text>
-            </View>
-          );
-        })}
-      </ScrollView>
+      <View style={styles.list}>
+        <ScrollView>
+          {pastGuesses.map((guess, index) => {
+            return renderListItem(guess, pastGuesses.length - index);
+          })}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -143,6 +151,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "80%",
     maxWidth: "90%",
+  },
+  listItem: {
+    borderColor: "#ccc",
+    borderWidth: 1,
+    padding: 15,
+    marginVertical: 10,
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  // we have this list style that contains the list items
+  list: {
+    // we add a flex 1 to this to make the list scrollable for android
+    flex: 1,
+    width: "80%",
   },
 });
 
