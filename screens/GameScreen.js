@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Alert,
+  ScrollView,
+} from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import DefaultStyles from "../constants/default-styles";
@@ -30,16 +37,21 @@ const generateRandomBetween = (min, max, exclude) => {
 const GameScreen = (props) => {
   const { userChoice, onGameOver } = props;
 
+  const initialGuess = generateRandomBetween(1, 100, userChoice);
   // the initial state will be using what is returned from the generateRandomBetween function
-  const [currentGuess, setCurrentGuess] = useState(
-    generateRandomBetween(1, 100, userChoice)
-  );
-  const [rounds, setRounds] = useState(0);
+
+  // this will set the initialGuess for the very first time the component renders
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  // we want to make a list of previous guesses
+  const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+
+  // const [rounds, setRounds] = useState(0);
 
   // this useEffect checks if the currentGuess and userChoice match
   useEffect(() => {
     if (currentGuess === userChoice) {
-      onGameOver(rounds);
+      onGameOver(pastGuesses.length);
     }
     // we include the userChoice and onGameOver because they are also used as dependencies
   }, [currentGuess, userChoice, onGameOver]);
@@ -72,7 +84,8 @@ const GameScreen = (props) => {
     if (direction === "lower") {
       currentHigh.current = currentGuess;
     } else {
-      currentLow.current = currentGuess;
+      // we add a plus one to not get a repeated number
+      currentLow.current = currentGuess + 1;
     }
 
     // we have to make sure to use the .current property
@@ -83,7 +96,12 @@ const GameScreen = (props) => {
     );
 
     // this is best practice since you don't want to mutate the current value of the state
-    setRounds((currentRounds) => currentRounds + 1);
+    setPastGuesses((curPastGuesses) => {
+      return [nextNumber, ...curPastGuesses];
+    });
+
+    // setRounds((currentRounds) => currentRounds + 1);
+
     setCurrentGuess(nextNumber);
   };
 
@@ -99,6 +117,15 @@ const GameScreen = (props) => {
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
+      <ScrollView>
+        {pastGuesses.map((guess, index) => {
+          return (
+            <View key={guess}>
+              <Text>{guess}</Text>
+            </View>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };
