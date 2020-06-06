@@ -143,9 +143,14 @@ const GameScreen = (props) => {
         <FlatList
           keyExtractor={(item) => item}
           data={pastGuesses}
+          /** the parameter within the function of the renderItem prop
+           *  holds metadata passed from the data renders it into the list
+           *  and also hols index and separators as well
+           */
           renderItem={(itemData) =>
             renderListItem(pastGuesses.length, itemData)
           }
+          contentContainerStyle={styles.list}
         />
       </View>
     </View>
@@ -174,13 +179,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "60%",
+    width: "100%",
   },
   // we have this list style that contains the list items
   listContainer: {
     // we add a flex 1 to this to make the list scrollable for android
     flex: 1,
-    width: "80%",
+    width: "60%",
   },
   list: {
     /**
@@ -189,7 +194,7 @@ const styles = StyleSheet.create({
      * have the scrollable items be visible
      */
     flexGrow: 1,
-    alignItems: "center",
+    // alignItems: "center", we dont need to center since the width is 100% anyways
     justifyContent: "flex-end",
   },
 });
