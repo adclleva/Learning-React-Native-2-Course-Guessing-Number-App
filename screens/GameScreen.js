@@ -6,6 +6,7 @@ import {
   Button,
   Alert,
   ScrollView,
+  FlatList,
 } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
@@ -35,11 +36,13 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-const renderListItem = (value, numOfRound) => {
+const renderListItem = (listLength, itemData) => {
+  console.log("listLength", listLength);
+  console.log("itemData", itemData);
   return (
-    <View key={value} style={styles.listItem}>
-      <BodyText>#{numOfRound}</BodyText>
-      <BodyText>{value}</BodyText>
+    <View style={styles.listItem}>
+      <BodyText>#{listLength - itemData.index}</BodyText>
+      <BodyText>{itemData.item}</BodyText>
     </View>
   );
 };
@@ -54,7 +57,7 @@ const GameScreen = (props) => {
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   // we want to make a list of previous guesses
-  const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+  const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
 
   // const [rounds, setRounds] = useState(0);
 
@@ -107,7 +110,7 @@ const GameScreen = (props) => {
 
     // this is best practice since you don't want to mutate the current value of the state
     setPastGuesses((curPastGuesses) => {
-      return [nextNumber, ...curPastGuesses];
+      return [nextNumber.toString(), ...curPastGuesses];
     });
 
     // setRounds((currentRounds) => currentRounds + 1);
@@ -128,11 +131,22 @@ const GameScreen = (props) => {
         </MainButton>
       </Card>
       <View style={styles.listContainer}>
-        <ScrollView contentContainerStyle={styles.list}>
+        {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) => {
             return renderListItem(guess, pastGuesses.length - index);
           })}
-        </ScrollView>
+        </ScrollView> */}
+        {/** FlatList is a good when you don't know how long the list 
+          will be and will save on performance       
+          FlatList wants a key as a string and not a number  
+        */}
+        <FlatList
+          keyExtractor={(item) => item}
+          data={pastGuesses}
+          renderItem={(itemData) =>
+            renderListItem(pastGuesses.length, itemData)
+          }
+        />
       </View>
     </View>
   );
@@ -169,7 +183,12 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   list: {
-    flex: 1,
+    /**
+     * we make sure to add this flexGrow one to give the size
+     * so the items could be at the bottom of the container and so we're able to
+     * have the scrollable items be visible
+     */
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "flex-end",
   },
